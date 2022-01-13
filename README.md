@@ -1,3 +1,6 @@
+Follow the below steps to setup the script
+
+
 Step 1: Download the Code
 
 Step 2: Run Command 'composer update' (It would add all the dependencies)
