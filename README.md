@@ -1,3 +1,5 @@
+Follow the below steps to setup the script
+
 Step 1: Download the Code
 
 Step 2: Run Command 'composer update' (It would add all the dependencies)
@@ -17,13 +19,13 @@ Step 5: If you want to test the APIs mannually using Postman, then follow:
 
 Send Invitation API:  
 
-Method: POST
+Method: POST,
 URL: http://127.0.0.1:8000/api/send
 Parameters: sender, invited (Both are required and  should have int values (IDs of the Users Table), If these do not exist in User Table it would throw error. Only Valid entries would be accepted)
 
 Respond Invitation API: Invited user can accept/decline to any received invitation
 
-Method: PUT
+Method: PUT,
 URL: http://127.0.0.1:8000/api/respond
 Parameters: 
     invitation_id (Required, The ID of the invitations table, would check if inviation is there and its status is 'sent' otherwise gives error) 
@@ -32,7 +34,7 @@ Parameters:
     
 Cancel Invitation API: Sender user can cancel to any sent invitation, only if its not responded by Invited user yet.
 
-Method: PUT
+Method: PUT,
 URL: http://127.0.0.1:8000/api/decline
 Parameters: 
     invitation_id (Required, The ID of the invitations table, would check if inviation is there and its status is 'sent' otherwise gives error) 
