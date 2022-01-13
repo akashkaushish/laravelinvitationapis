@@ -1,66 +1,47 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+Step 1: Download the Code
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Step 2: Run Command 'composer update' (It would add all the dependencies)
 
-## About Laravel
+Step 3: open the .env file add the mysql database credentials, I made a databse on localhost name loudly
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=8889
+DB_DATABASE=loudly
+DB_USERNAME=root
+DB_PASSWORD=root
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Step 4: Run Command 'php artisan migrate', it would add the tables in database from migration files.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Step 5: If you want to test the APIs mannually using Postman, then follow:
 
-## Learning Laravel
+Send Invitation API:  
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Method: POST
+URL: http://127.0.0.1:8000/api/send
+Parameters: sender, invited (Both are required and  should have int values (IDs of the Users Table), If these do not exist in User Table it would throw error. Only Valid entries would be accepted)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Respond Invitation API: Invited user can accept/decline to any received invitation
 
-## Laravel Sponsors
+Method: POST
+URL: http://127.0.0.1:8000/api/respond
+Parameters: 
+    invitation_id (Required, The ID of the invitations table, would check if inviation is there and its status is 'sent' otherwise gives error) 
+    invited (Required and  should have int values (ID of the Invited user in users Table), If these do not exist in User Table it would throw error. Also                  check if the invited user is same as the user id sent in invited parameter.Only Valid entries would be accepted)
+    status (Required field, value should be accept/decline, do not take any other value.)
+    
+Cancel Invitation API: Sender user can cancel to any sent invitation, only if its not responded by Invited user yet.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Method: POST
+URL: http://127.0.0.1:8000/api/decline
+Parameters: 
+    invitation_id (Required, The ID of the invitations table, would check if inviation is there and its status is 'sent' otherwise gives error) 
+    sender (Required and  should have int values (ID of the Sender user in users Table), If these do not exist in User Table it would throw error. Also check               if this is the same user who sent this invitation or not. Only Valid entries would be accepted)
+    
+    
 
-### Premium Partners
+Step 5: To test the invitation send API using PHPUnit
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-- **[Romega Software](https://romegasoftware.com)**
+Run Command 'php artisan test --filter InvitationControllerTest'
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+It would automativally create 2 Users (Sender & Invited) and send an invitation.
