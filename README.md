@@ -23,7 +23,7 @@ Parameters: sender, invited (Both are required and  should have int values (IDs 
 
 Respond Invitation API: Invited user can accept/decline to any received invitation
 
-Method: POST
+Method: PUT
 URL: http://127.0.0.1:8000/api/respond
 Parameters: 
     invitation_id (Required, The ID of the invitations table, would check if inviation is there and its status is 'sent' otherwise gives error) 
@@ -32,7 +32,7 @@ Parameters:
     
 Cancel Invitation API: Sender user can cancel to any sent invitation, only if its not responded by Invited user yet.
 
-Method: POST
+Method: PUT
 URL: http://127.0.0.1:8000/api/decline
 Parameters: 
     invitation_id (Required, The ID of the invitations table, would check if inviation is there and its status is 'sent' otherwise gives error) 
